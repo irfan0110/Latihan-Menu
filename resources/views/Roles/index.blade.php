@@ -7,6 +7,11 @@
         <div class="col-md-12 bg-white shadow-sm p-3">
             <h5>Role Management</h5>
             <div class="alert alert-success" style="display: none;"></div>
+            @if (session('status'))
+                <div class="alert alert-success" role="alert">
+                    {{ session('status') }}
+                </div>
+            @endif
             <button class="btn btn-primary btn-sm float-right" data-toggle="modal" data-target="#addModalRole"><i class="fa-fa-pencil"></i> Tambah</button><br><br>
             <div class="table-responsive">
                 <table class="table table-striped table-sm">

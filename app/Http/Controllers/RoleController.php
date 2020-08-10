@@ -131,9 +131,10 @@ class RoleController extends Controller
                             ->orderBy('order')
                             ->get();
         $roles = Role::findOrFail($id);
+        $menusActive = MenuUser::where('role_id', $id)->pluck('menu_id')->toArray();
+        $submenusActive = AccessMenuUser::where('role_id',$id)->pluck('submenu_id')->toArray();
         
-
-        return view('roles.addMenus',['roles' => $roles, 'menus' => $menus, 'submenus' => $submenus]);
+        return view('roles.addMenus',['roles' => $roles, 'menus' => $menus, 'submenus' => $submenus, 'menuactive' => $menusActive, 'submenuactive' => $submenusActive]);
     }
 
     public function addMenu(Request $request)
@@ -157,15 +158,17 @@ class RoleController extends Controller
                 MenuUser::insert($datamenu);
             }
 
-            for($i=0; $i<count($submenus); $i++){
-                $dataaccess = [
-                    'submenu_id' => $submenus[$i],
-                    'role_id' => $role_id,
-                    'access' => $request->get('rdsubmenu_'.$submenus[$i]),
-                    "created_at" =>  date('Y-m-d H:i:s'),
-                    "updated_at" => date('Y-m-d H:i:s')
-                ];
-                AccessMenuUser::insert($dataaccess);
+            if($submenus){
+                for($i=0; $i<count($submenus); $i++){
+                    $dataaccess = [
+                        'submenu_id' => $submenus[$i],
+                        'role_id' => $role_id,
+                        'access' => $request->get('rdsubmenu_'.$submenus[$i]),
+                        "created_at" =>  date('Y-m-d H:i:s'),
+                        "updated_at" => date('Y-m-d H:i:s')
+                    ];
+                    AccessMenuUser::insert($dataaccess);
+                }
             }
         }catch(Exception $e){
             DB::rollback();
