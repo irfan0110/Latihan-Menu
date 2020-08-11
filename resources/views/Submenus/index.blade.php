@@ -27,8 +27,8 @@
                     <tbody>
                         @foreach($submenus as $submenu)
                             <tr>
-                                <td>{{$loop->iteration}}</td>
-                                <td>{{$submenu->menus->menu}}</td>
+                                <td>{{ $loop->iteration}}</td>
+                                <td>{{ $submenu->menus->menu}}</td>
                                 <td>{{ $submenu->title }}</td>
                                 <td>{{ $submenu->url }}</td>
                                 <td>{{ $submenu->icon }}</td>

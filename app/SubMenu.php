@@ -8,6 +8,6 @@ class SubMenu extends Model
 {
     public function menus()
     {
-        return $this->hasOne(Menu::class, 'id');
+        return $this->hasOne(Menu::class,'id','menu_id');
     }
 }

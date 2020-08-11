@@ -10,6 +10,6 @@ class Menu extends Model
 
     public function submenus()
     {
-        return $this->hasMany(SubMenu::class,'menu_id');
+        return $this->hasMany(SubMenu::class,'menu_id','id');
     }
 }

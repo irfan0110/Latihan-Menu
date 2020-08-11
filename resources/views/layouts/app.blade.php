@@ -58,11 +58,11 @@
                     <ul class="navbar-nav mr-auto">
                         @foreach($menus as $menu)
                         <li class="nav-item {{ isDropDown($role,$menu->id) }}">
-                            <a class="nav-link {{isDropDownToggle($role,$menu->id)}}" {{ checkSubMenu($role,$menu->id,$menu->menu) }} href="#"><i class="{{$menu->icon}}"></i> {{$menu->menu}}</a>
+                            <a class="nav-link {{isDropDownToggle($role,$menu->id)}}" {{ checkSubMenu($role,$menu->id,$menu->menu) }} href="{{ $menu->menu =='Home' ? route('home') : '#' }}"><i class="{{$menu->icon}}"></i> {{$menu->menu}}</a>
                             <div class="dropdown-menu" aria-labelledby="dropdown{{$menu->menu}}">
                             @foreach($submenus as $submenu)
                                 @if($menu->id == $submenu->menu_id)
-                                    <a class="dropdown-item" href="{{ $submenu->url }}"><i class="{{$submenu->icon}}"></i> {{$submenu->title}}</a>
+                                    <a class="dropdown-item" href="{{ route($submenu->url) }}"><i class="{{$submenu->icon}}"></i> {{$submenu->title}}</a>
                                 @endif
                             @endforeach
                             </div>
