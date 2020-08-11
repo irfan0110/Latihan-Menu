@@ -35,27 +35,39 @@
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
+                    <?php
+
+                    use App\AccessMenuUser;
+                    use App\MenuUser;
+                    use App\UserRole;
+                    use Illuminate\Support\Facades\Auth;
+
+                    $role = UserRole::where('user_id',Auth::user()->id)->pluck('role_id')->toArray();
+                    $menus = MenuUser::
+                            select('menus.id','menu_id','menu','icon')
+                            ->distinct()
+                            ->join('menus','menu_users.menu_id','=','menus.id')
+                            ->whereIn('role_id',$role)->get();
+                    $submenus = AccessMenuUser::
+                                select('menu_id','url','icon','title')
+                                ->distinct()
+                                ->join('sub_menus','access_menu_users.submenu_id','=','sub_menus.id')
+                                ->whereIn('role_id',$role)->get();
+
+                    ?>
                     <ul class="navbar-nav mr-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" href="#"><i class="fa fa-dashboard"></i> Dashboard <span class="sr-only">(current)</span></a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Notifications</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Profile</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Switch account</a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Settings</a>
-                            <div class="dropdown-menu" aria-labelledby="dropdown01">
-                            <a class="dropdown-item" href="#">Action</a>
-                            <a class="dropdown-item" href="#">Another action</a>
-                            <a class="dropdown-item" href="#">Something else here</a>
+                        @foreach($menus as $menu)
+                        <li class="nav-item {{ isDropDown($role,$menu->id) }}">
+                            <a class="nav-link {{isDropDownToggle($role,$menu->id)}}" {{ checkSubMenu($role,$menu->id,$menu->menu) }} href="#"><i class="{{$menu->icon}}"></i> {{$menu->menu}}</a>
+                            <div class="dropdown-menu" aria-labelledby="dropdown{{$menu->menu}}">
+                            @foreach($submenus as $submenu)
+                                @if($menu->id == $submenu->menu_id)
+                                    <a class="dropdown-item" href="{{ $submenu->url }}"><i class="{{$submenu->icon}}"></i> {{$submenu->title}}</a>
+                                @endif
+                            @endforeach
                             </div>
                         </li>
+                        @endforeach
                     </ul>
 
                     <!-- Right Side Of Navbar -->

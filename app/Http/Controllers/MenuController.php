@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Menu;
+use App\MenuUser;
+use App\UserRole;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class MenuController extends Controller
@@ -64,5 +67,13 @@ class MenuController extends Controller
             'icon' => 'required',
             'order' => 'required|numeric'
         ]);
+    }
+
+    public function menu()
+    {
+        $role = UserRole::where('user_id',Auth::user()->id)->first();
+        $menus =    MenuUser::join('menus','menu_users.menu_id','=','menus.id')
+                    ->where('role_id',$role->role_id)->get();
+        return view('layouts.menus', compact('menus'));
     }
 }
