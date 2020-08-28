@@ -12,6 +12,7 @@ use App\UserRole;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
@@ -25,6 +26,7 @@ class RoleController extends Controller
 
     public function store(Request $request)
     {
+        $this->authorize('create',Role::class);
         $validator = $this->validateRequest();
         if($validator->fails()){
             return response()->json(['errors' => $validator->getMessageBag()->toArray()]);
@@ -43,6 +45,7 @@ class RoleController extends Controller
 
     public function update(Request $request)
     {
+        $this->authorize('update',Role::class);
         $validator = $this->validateRequest();
 
         if($validator->fails()){
@@ -71,6 +74,7 @@ class RoleController extends Controller
 
     public function addUserRole($id)
     {
+        $this->authorize('update',Role::class);
         $role = Role::findOrfail($id);
         $members = UserRole::join('users','users.id','=','user_roles.user_id')
                             ->where('role_id', $role->id)
@@ -92,6 +96,7 @@ class RoleController extends Controller
 
     public function roleStore(Request $request)
     {
+        $this->authorize('update',Role::class);
         DB::beginTransaction();
         try{
             $role_id = $request->get('role_id');
@@ -126,6 +131,7 @@ class RoleController extends Controller
 
     public function accessMenu($id)
     {
+        $this->authorize('update',Role::class);
         $menus = Menu::orderBy('menu')->get();
         $submenus = SubMenu::orderBy('menu_id')
                             ->orderBy('order')
@@ -139,6 +145,7 @@ class RoleController extends Controller
 
     public function addMenu(Request $request)
     {
+        $this->authorize('update',Role::class);
         DB::beginTransaction();
         try{
             $role_id = $request->get('role_id');
@@ -179,5 +186,13 @@ class RoleController extends Controller
         }
         DB::commit();
         return redirect()->route('roles.index')->with('status','Data Behasil Diupdate');
+    }
+
+    public function delete($id)
+    {
+        $this->authorize('delete',Role::class);
+        $role = Role::findOrFail($id);
+        $role->delete();
+        return redirect()->route('roles.index')->with('status','Data Behasil Dihapus');
     }
 }

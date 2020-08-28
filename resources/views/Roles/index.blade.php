@@ -12,7 +12,9 @@
                     {{ session('status') }}
                 </div>
             @endif
+            @can('create',App\Role::class)
             <button class="btn btn-primary btn-sm float-right" data-toggle="modal" data-target="#addModalRole"><i class="fa-fa-pencil"></i> Tambah</button><br><br>
+            @endcan
             <div class="table-responsive">
                 <table class="table table-striped table-sm">
                     <thead>
@@ -29,7 +31,11 @@
                             <tr>
                                 <td>{{ $no }}</td>
                                 <td>
+                                    @can('update',App\Role::class)
                                     <a href="{{ route('roles.addUserRole',['id' => $role->id]) }}" class="badge badge-info">{{ $role->roles}}</a>
+                                    @else
+                                        <span class="badge badge-info">{{ $role->roles}}</span>
+                                    @endcan
                                 </td>
                                 <td>
                                     @if($role->isActive == 1)
@@ -39,8 +45,17 @@
                                     @endif
                                 </td>
                                 <td>
+                                    @can('update',App\Role::class)
                                     <button class="btn-success btn-sm" data-id="{{ $role->id }}" data-roles="{{ $role->roles}}" data-status="{{ $role->isActive}}" data-toggle="modal" data-target="#editModalRole"><i class="fa fa-edit"></i> Edit</button>
                                     <a href="{{ route('roles.menu',['id' => $role->id])}}" class="btn btn-warning btn-sm"><i class="fa fa-check-square"></i> Access Menu</a>
+                                    @endcan
+                                    @can('delete', App\Role::class)
+                                    <form action="{{ route('roles.delete',['id' => $role->id])}}" method="POST" class="d-inline" onsubmit="return confirm('Delete this record?')">
+                                        @method('DELETE')
+                                        @csrf
+                                        <button class="btn btn-sm btn-danger"><i class="fa fa-trash"> Delete</i></button>
+                                    </form>
+                                    @endcan
                                 </td>
                             </tr>
                         <?php $no++ ?>

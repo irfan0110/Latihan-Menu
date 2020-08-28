@@ -23,27 +23,27 @@
                                     @if($menu->id == $submenu->menu_id)
                                     <div class="form-check">
                                         &nbsp;&nbsp;&nbsp;&nbsp;
-                                        <input class="form-check-input" name="submenu[]" type="checkbox" value="{{ $submenu->id }}" id="submenu_{{$menu->menu}}" {{ in_array($submenu->id, $submenuactive) ? 'checked="checked"' :'disabled="disabled"' }} >
+                                        <input class="form-check-input" name="submenu[]" type="checkbox" value="{{ $submenu->id }}" id="submenu_{{$menu->menu}}" {{ in_array($submenu->id, $submenuactive) ? 'checked="checked"' :'' }} >
                                         <label class="form-check-label" for="submenu_{{$submenu->title}}">
                                             {{ $submenu->title }}
                                         </label>
                                         &nbsp;&nbsp;&nbsp;&nbsp;
-                                        <input class="form-check-input" type="radio" name="rdsubmenu_{{$submenu->id}}" id="submenu_{{$menu->menu}}" value="0" {{ in_array($submenu->id, $submenuactive) ? 'checked="checked"' :'disabled="disabled"' }} {{ checkAccesMenu($roles->id, $submenu->id,0)}}>
+                                        <input class="form-check-input" type="radio" name="rdsubmenu_{{$submenu->id}}" id="submenu_{{$menu->menu}}" value="0" {{ checkAccesMenu($roles->id, $submenu->id,0)}}>
                                         <label class="form-check-label" for="submenu_{{$menu->menu}}">
                                             Read
                                         </label>
                                         &nbsp;&nbsp;&nbsp;&nbsp;
-                                        <input class="form-check-input" type="radio" name="rdsubmenu_{{$submenu->id}}" id="submenu_{{$menu->menu}}" value="1" {{ in_array($submenu->id, $submenuactive) ? 'checked="checked"' :'disabled="disabled"' }} {{ checkAccesMenu($roles->id, $submenu->id,1)}}>
+                                        <input class="form-check-input" type="radio" name="rdsubmenu_{{$submenu->id}}" id="submenu_{{$menu->menu}}" value="1"{{ checkAccesMenu($roles->id, $submenu->id,1)}}>
                                         <label class="form-check-label" for="submenu_{{$menu->menu}}">
                                             Add
                                         </label>
                                         &nbsp;&nbsp;&nbsp;&nbsp;
-                                        <input class="form-check-input" type="radio" name="rdsubmenu_{{$submenu->id}}" id="submenu_{{$menu->menu}}" value="2" {{ in_array($submenu->id, $submenuactive) ? 'checked="checked"' :'disabled="disabled"' }} {{ checkAccesMenu($roles->id, $submenu->id,2)}}>
+                                        <input class="form-check-input" type="radio" name="rdsubmenu_{{$submenu->id}}" id="submenu_{{$menu->menu}}" value="2"{{ checkAccesMenu($roles->id, $submenu->id,2)}}>
                                         <label class="form-check-label" for="submenu_{{$menu->menu}}">
                                             Edit
                                         </label>
                                         &nbsp;&nbsp;&nbsp;&nbsp;
-                                        <input class="form-check-input" type="radio" name="rdsubmenu_{{$submenu->id}}" id="submenu_{{$menu->menu}}" value="3" {{ in_array($submenu->id, $submenuactive) ? 'checked="checked"' :'disabled="disabled"' }} {{ checkAccesMenu($roles->id, $submenu->id,3)}}>
+                                        <input class="form-check-input" type="radio" name="rdsubmenu_{{$submenu->id}}" id="submenu_{{$menu->menu}}" value="3"{{ checkAccesMenu($roles->id, $submenu->id,3)}}>
                                         <label class="form-check-label" for="submenu_{{$menu->menu}}">
                                             Delete
                                         </label>

@@ -25,6 +25,7 @@ Route::prefix('role')->middleware('auth')->group(function(){
     Route::post('roleStore', 'RoleController@roleStore')->name('roles.roleStore');
     Route::get('accessMenu/{id}', 'RoleController@accessMenu')->name('roles.menu');
     Route::post('addMenu', 'RoleController@addMenu')->name('roles.addMenu');
+    Route::delete('delete/{id}','RoleController@delete')->name('roles.delete');
 });
 
 Route::get('/submenu','SubMenuController@index')->name('submenu.index');
